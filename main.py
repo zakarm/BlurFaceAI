@@ -1,4 +1,5 @@
 import numpy as np
+from utils import Bcolors as bc
 from sys import exit
 from sys import stderr
 from os import path
@@ -19,11 +20,11 @@ def vid_capture():
     try :
         video_capture = cv2.VideoCapture(0)
         if not video_capture.isOpened():
-            print("Error: Could not open camera.", file=stderr)
+            print(f"{bc.FAIL}Error:{bc.DEFAULT} Could not open camera.", file=stderr)
         while True:
                 ret, frame = video_capture.read()
                 if not ret:
-                    print("Error: Failed to capture frame from the camera.", file=stderr)
+                    print(f"{bc.FAIL}Error:{bc.DEFAULT} Failed to capture frame from the camera.", file=stderr)
                     return
                 gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 faces = faceCascade.detectMultiScale(
@@ -49,7 +50,7 @@ def vid_capture():
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
     except Exception as e:
-         print(f"Error: an error occurred: {e}", file=stderr)
+         print(f"{bc.FAIL}Error:{bc.DEFAULT} an error occurred: {e}", file=stderr)
     finally:
         if 'video_capture' in locals() and video_capture.isOpened():
             video_capture.release()
